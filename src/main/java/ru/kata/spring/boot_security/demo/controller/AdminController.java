@@ -39,11 +39,11 @@ public class AdminController {
 
     @PostMapping(value = "/addUser")
     public String addUser(@ModelAttribute("user") User user) {
-        System.out.println(user.getRoles() + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-       // roles.forEach(System.out::println);
         userService.saveUser(user);
         return "redirect:/admin";
     }
+
+
 
     @GetMapping(value = "/edit")
     public String edit(@RequestParam("id") long id, ModelMap model) {
