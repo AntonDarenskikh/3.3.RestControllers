@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
                 .deleteCookies()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/login");
     }
 
     @Override
