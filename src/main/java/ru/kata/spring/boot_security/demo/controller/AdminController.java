@@ -66,12 +66,12 @@ public class AdminController {
         String oldPassword = userService.findUserById(user.getId()).getPassword();
         String newPassword = user.getPassword();
 
-        //User newUser = userService.changePasswordIfNew(user);
-        if (passwordEncoder.matches(newPassword, oldPassword) || oldPassword.equals(newPassword)) {
+        User newUser = userService.changePasswordIfNew(user);
+/*        if (passwordEncoder.matches(newPassword, oldPassword) || oldPassword.equals(newPassword)) {
             user.setPassword(oldPassword);
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
+        }*/
 
         userService.updateUser(user);
         return "redirect:/admin";

@@ -19,7 +19,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/")
-    public String printWelcome(ModelMap model) {
+    public String printWelcome(Principal principal, ModelMap model) {
+        User user = userService.findUserByUsername(principal.getName());
+        model.addAttribute("user", user);
         return "index";
     }
 
