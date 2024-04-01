@@ -1,27 +1,33 @@
 package ru.kata.spring.boot_security.demo.services;
 
 //import org.springframework.security.core.userdetails.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserDetailsService, UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -33,10 +39,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return user;
     }
 
+/*    @Transactional(readOnly = true)
+    public User findUserById(long userId) {
+        Optional<User> user = Optional.of(userRepository.findById(userId).get());
+        return user.orElse(null);
+    }*/
+
+    @Override
     @Transactional(readOnly = true)
     public User findUserById(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        return user.orElse(null);
+        return userRepository.findById(userId).get();
     }
 
     @Transactional(readOnly = true)
@@ -57,6 +69,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (userFromDB != null) {
             return false;
         }
+
         userRepository.save(user);
         return true;
     }
@@ -70,10 +83,24 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Transactional
     public void updateUser(User user) {
-        userRepository.save(user);
+        userRepository.update(user);
+    }
+
+    @Override
+    public User changePasswordIfNew(User user) {
+/*        String oldPassword = findUserById(user.getId()).getPassword();
+        String newPassword = user.getPassword();
+
+        if (passwordEncoder.matches(newPassword, oldPassword) || oldPassword.equals(newPassword)) {
+            user.setPassword(oldPassword);
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }*/
+        return user;
     }
 
 
-
-
 }
+
+
+

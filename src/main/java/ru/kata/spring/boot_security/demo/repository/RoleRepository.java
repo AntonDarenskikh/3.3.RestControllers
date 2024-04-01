@@ -10,5 +10,4 @@ public interface RoleRepository {
     List<Role> findAll();
     Role findByRole(String name);
 
-    void saveRole(Role role);
 }

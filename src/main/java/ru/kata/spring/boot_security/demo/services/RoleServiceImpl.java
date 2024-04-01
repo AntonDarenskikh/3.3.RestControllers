@@ -1,12 +1,16 @@
 package ru.kata.spring.boot_security.demo.services;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -22,14 +26,24 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Role findByRole(String role) {
         return roleRepository.findByRole(role);
     }
 
     @Override
-    public void saveRole(Role role) {
-        roleRepository.saveRole(role);
+    @Transactional
+    public void save(Role role) {
+        roleRepository.save(role);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean setRoles(User user) {
+        Set<Role> roles = user.getRoles().stream().map(Role::getRole)
+                .map(roleRepository::findByRole).collect(Collectors.toSet());
+        user.setRoles(roles);
+        return true;
     }
 
 

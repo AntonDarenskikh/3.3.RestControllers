@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.repository;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
 
@@ -34,8 +35,4 @@ public class RoleRepositoryImpl implements RoleRepository {
         return role;
     }
 
-    @Override
-    public void saveRole(Role role) {
-        entityManager.persist(role);
-    }
 }

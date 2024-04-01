@@ -16,12 +16,18 @@
     <label for="psw">Enter password: </label>
     <input type="text" th:field="*{password}" id="psw"/>
     <br/>
+    <label for="age">Enter age: </label>
+    <input type="text" th:field="*{age}" id="age"/>
+    <br/>
+    <label for="email">Enter email: </label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <br/>
     <p>
         <label>Roles:
             <input type="checkbox" name="roles"
                    th:each="role : ${allRoles}"
-                   th:text="${role.name}"
-                   th:value="${role.id}"
+                   th:text="${role.role}"
+                   th:value="${role.role}"
                    th:field="*{roles}"
             />
         </label>

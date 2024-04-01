@@ -24,7 +24,17 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)//, cascade=CascadeType.ALL)
+    @Column(name="email")
+    private String email;
+
+    @Column(name = "age")
+    private byte age;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "USER_ROLE",
+            joinColumns = { @JoinColumn(name = "USER_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "USER_ROLE_ID") })
     private Set<Role> roles;
 
     public User() {
@@ -33,6 +43,14 @@ public class User implements UserDetails {
     public User(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
+        this.roles = roles;
+    }
+
+    public User(String username, String password, String email, byte age, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.age = age;
         this.roles = roles;
     }
 
@@ -52,6 +70,23 @@ public class User implements UserDetails {
     public void setId(long id) {
         this.id = id;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public byte getAge() {
+        return age;
+    }
+
+    public void setAge(byte age) {
+        this.age = age;
+    }
+
 
 
     public void setUsername(String username) {
