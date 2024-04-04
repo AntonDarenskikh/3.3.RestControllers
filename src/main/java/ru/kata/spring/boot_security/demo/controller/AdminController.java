@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,8 +30,11 @@ public class AdminController {
     }
 
     @GetMapping(value = "")
-    public String getAdminPage(ModelMap model) {
+    public String getAdminPage(@ModelAttribute("user") User user, @ModelAttribute("newUser") User cuser, Principal principal, ModelMap model) {
+        User thisUser = userService.findUserByUsername(principal.getName());
+        model.addAttribute("thisUser", thisUser);
         model.addAttribute("users", userService.allUsers());
+        model.addAttribute("allRoles", roleService.allRoles());
         return "admin";
     }
 

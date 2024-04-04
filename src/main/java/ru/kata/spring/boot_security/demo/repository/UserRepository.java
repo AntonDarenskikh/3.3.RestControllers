@@ -8,6 +8,9 @@ import java.util.Optional;
 
 public interface UserRepository {
     User findByUsername(String username);
+
+    User findByEmail(String email);
+
     Optional<User> findById(long userId);
     List<User> findAll();
     void save(User user);

@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.repository;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
@@ -12,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -31,6 +29,20 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return user;
     }
+
+    @Override
+    public User findByEmail(String email) {
+        User user = null;
+        Set<Role> roles = null;
+        try {
+            user = entityManager.createQuery("select u from User u where u.email = :email" , User.class)
+                    .setParameter("email", email).getSingleResult();
+            Hibernate.initialize(user.getRoles());
+        } catch (NoResultException e) {
+        }
+        return user;
+    }
+
 
     @Override
     public Optional<User> findById(long userId) {
