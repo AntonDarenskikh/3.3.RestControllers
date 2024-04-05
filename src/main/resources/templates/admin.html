@@ -14,14 +14,16 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark p-0">
     <div class="container-fluid">
         <a class="navbar-brand">
             <b th:text="${thisUser.getEmail()}"> a@mail.ru </b> with roles: <span th:each="role : ${thisUser.getRoles()}"
                                                                               th:text="${role.getName()} + ' '"></span>
         </a>
         <span class="navbar-text">
-        <a th:href="@{logout}">Logout</a>
+            <a type="button" class="btn text-secondary"  role="button" th:href="@{/logout}">
+                Logout
+            </a>
         </span>
     </div>
 </nav>
