@@ -69,10 +69,11 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">Id</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Roles</th>
-                                    <th scope="col">Email</th>
+                                    <th scope="col">First name</th>
+                                    <th scope="col">Last name</th>
                                     <th scope="col">Age</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Roles</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
 
@@ -81,12 +82,13 @@
                                 <tbody>
                                 <tr th:each = "user: ${users}">
                                     <td th:text="${user.getId()}"/>
-                                    <td th:text="${user.getUsername()}"/>
+                                    <td th:text="${user.getFirstName()}"/>
+                                    <td th:text="${user.getLastName()}"/>
+                                    <td th:text="${user.getAge()}"/>
+                                    <td th:text="${user.getEmail()}"/>
                                     <td>
                                         <span th:each="role : ${user.getRoles()}" th:text="${role.getName()} + '; '"></span>
                                     </td>
-                                    <td th:text="${user.getEmail()}"/>
-                                    <td th:text="${user.getAge()}"/>
                                     <td>
                                         <a type="button" class="btn btn-info text-white btn-sm"  data-bs-toggle="modal" th:data-bs-target="'#edit'+ ${user.getId()}" role="button">
                                             Edit
@@ -112,12 +114,17 @@
                                                             <fieldset disabled>
                                                                 <div class="py-2">
                                                                     <label for="id" class="fw-bold">ID</label>
-                                                                    <input type="text"  th:value="${user.getId()}" class="form-control form-control-sm " placeholder="Username" aria-label="name" id="id">
+                                                                    <input type="text"  th:value="${user.getId()}" class="form-control form-control-sm " placeholder="ID" aria-label="name" id="id">
                                                                 </div>
 
                                                                 <div class="py-2">
-                                                                    <label for="username1" class="fw-bold">Username</label>
-                                                                    <input type="text" th:value="${user.username}" class="form-control form-control-sm " placeholder="Username" aria-label="name" id="username1">
+                                                                    <label for="firstName" class="fw-bold">First name</label>
+                                                                    <input type="text" th:value="${user.firstName}" class="form-control form-control-sm " placeholder="First name" aria-label="name" id="firstName">
+                                                                </div>
+
+                                                                <div class="py-2">
+                                                                    <label for="lastName" class="fw-bold">Last name</label>
+                                                                    <input type="text" th:value="${user.lastName}" class="form-control form-control-sm " placeholder="Last name" aria-label="name" id="lastName">
                                                                 </div>
 
 
@@ -176,13 +183,17 @@
                                                                     <input type="text"  th:value="${user.id}" th:name="id" class="form-control form-control-sm " placeholder="Username" id="id2" readonly>
                                                                 </div>
 
-
-
+                                                                <div class="py-2">
+                                                                    <label for="firstName1" class="fw-bold">First name</label>
+                                                                    <input type="text" th:value="${user.firstName}" th:name="firstName" class="form-control form-control-sm " placeholder="First name" id="firstName1">
+                                                                </div>
 
                                                                 <div class="py-2">
-                                                                    <label for="username2" class="fw-bold">Username</label>
-                                                                    <input type="text" th:value="${user.username}"  th:name="username" class="form-control form-control-sm " placeholder="Username"  id="username2">
+                                                                    <label for="lastName1" class="fw-bold">Last name</label>
+                                                                    <input type="text" th:value="${user.lastName}" th:name="lastName" class="form-control form-control-sm " placeholder="Last name" id="lastName1">
                                                                 </div>
+
+
 
 
                                                                 <div class="py-2">
@@ -239,8 +250,13 @@
                         <div class="col-4 p-1 align-self-center text-center">
                             <form th:method="POST" th:action="@{/admin/addUser}" th:object="${newUser}">
                                 <div class="py-2">
-                                    <label for="username" class="fw-bold">Username</label>
-                                    <input type="text" th:field="*{username}" class="form-control form-control-sm " placeholder="Username" aria-label="name" id="username">
+                                    <label for="firstName3" class="fw-bold">First name</label>
+                                    <input type="text" th:field="*{firstName}" th:name="firstName" class="form-control form-control-sm " placeholder="First name" id="firstName3">
+                                </div>
+
+                                <div class="py-2">
+                                    <label for="lastName3" class="fw-bold">Last name</label>
+                                    <input type="text" th:field="*{lastName}" th:name="lastName" class="form-control form-control-sm " placeholder="Last name" id="lastName3">
                                 </div>
 
                                 <div class="py-2">

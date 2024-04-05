@@ -9,7 +9,8 @@ import java.util.List;
 public interface UserService {
     User findUserById(Long userId);
     List<User> allUsers();
-    User findUserByUsername(String username);
+    //User findUserByUsername(String username);
+    User findUserByEmail(String email);
     boolean saveUser(User user);
     void deleteUser(Long id);
 

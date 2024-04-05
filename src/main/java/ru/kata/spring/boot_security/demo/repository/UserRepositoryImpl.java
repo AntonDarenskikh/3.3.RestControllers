@@ -17,7 +17,7 @@ public class UserRepositoryImpl implements UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
+/*    @Override
     public User findByUsername(String username) {
         User user = null;
         Set<Role> roles = null;
@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (NoResultException e) {
         }
         return user;
-    }
+    }*/
 
     @Override
     public User findByEmail(String email) {

@@ -44,13 +44,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Role adminRole = roleService.findByRole("ROLE_ADMIN");
         Role userRole = roleService.findByRole("ROLE_USER");
 
-        if (userService.findUserByUsername("admin") == null) {
-            User admin = new User("admin", passwordEncoder.encode("password"), "ya@yandex.ru", (byte) 20, Set.of(adminRole, userRole));
+        if (userService.findUserByEmail("ya@yandex.ru") == null) {
+            User admin = new User("ya@yandex.ru", passwordEncoder.encode("password"), "Alex", "Vans", (byte) 20, Set.of(adminRole, userRole));
             userService.saveUser(admin);
         }
 
-        if (userService.findUserByUsername("user") == null) {
-            User startUser = new User("user", passwordEncoder.encode("password"), "user@mail.ru", (byte) 30, Set.of(userRole));
+        if (userService.findUserByEmail("user@mail.ru") == null) {
+            User startUser = new User("user@mail.ru", passwordEncoder.encode("password"), "Mike", "Casper", (byte) 30, Set.of(userRole));
             userService.saveUser(startUser);
         }
 

@@ -31,7 +31,7 @@ public class AdminController {
 
     @GetMapping(value = "")
     public String getAdminPage(@ModelAttribute("user") User user, @ModelAttribute("newUser") User cuser, Principal principal, ModelMap model) {
-        User thisUser = userService.findUserByUsername(principal.getName());
+        User thisUser = userService.findUserByEmail(principal.getName());
         model.addAttribute("thisUser", thisUser);
         model.addAttribute("users", userService.allUsers());
         model.addAttribute("allRoles", roleService.allRoles());

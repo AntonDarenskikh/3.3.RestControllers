@@ -30,7 +30,7 @@ public class UserController {
 
     @GetMapping(value = "/user")
     public String getUserPage(Principal principal, ModelMap model) {
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
         model.addAttribute("user", user);
         return "user";
     }

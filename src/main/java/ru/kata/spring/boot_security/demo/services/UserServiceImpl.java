@@ -38,9 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            user = userRepository.findByUsername(email);
-        }
-        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return user;
@@ -63,14 +60,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
+/*    @Transactional(readOnly = true)
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }*/
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Transactional
     public boolean saveUser(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
+        User userFromDB = userRepository.findByEmail(user.getEmail());
 
         if (userFromDB != null) {
             return false;
