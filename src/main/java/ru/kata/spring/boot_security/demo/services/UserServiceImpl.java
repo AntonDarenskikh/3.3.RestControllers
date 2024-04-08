@@ -1,7 +1,5 @@
 package ru.kata.spring.boot_security.demo.services;
 
-//import org.springframework.security.core.userdetails.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,16 +7,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Lazy
@@ -43,11 +35,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
-/*    @Transactional(readOnly = true)
-    public User findUserById(long userId) {
-        Optional<User> user = Optional.of(userRepository.findById(userId).get());
-        return user.orElse(null);
-    }*/
 
     @Override
     @Transactional(readOnly = true)
@@ -60,26 +47,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
-/*    @Transactional(readOnly = true)
-    public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }*/
-
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Transactional
-    public boolean saveUser(User user) {
+    public void saveUser(User user) {
         User userFromDB = userRepository.findByEmail(user.getEmail());
 
         if (userFromDB != null) {
-            return false;
+            return;
         }
 
         userRepository.save(user);
-        return true;
     }
 
     @Transactional
@@ -95,7 +76,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User changePasswordIfNew(User user) {
+    @Transactional
+    public void changePasswordIfNew(User user) {
         String oldPassword = findUserById(user.getId()).getPassword();
         String newPassword = user.getPassword();
 
@@ -104,7 +86,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        return user;
+    }
+
+    @Override
+    public void setEncodedPassword(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+
+    @Override
+    public String getEncodedPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 
 

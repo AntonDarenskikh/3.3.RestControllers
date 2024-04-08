@@ -17,25 +17,12 @@ public class UserRepositoryImpl implements UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-/*    @Override
-    public User findByUsername(String username) {
-        User user = null;
-        Set<Role> roles = null;
-        try {
-            user = entityManager.createQuery("select u from User u where u.username = :username" , User.class)
-                    .setParameter("username", username).getSingleResult();
-            Hibernate.initialize(user.getRoles());
-        } catch (NoResultException e) {
-        }
-        return user;
-    }*/
-
     @Override
     public User findByEmail(String email) {
         User user = null;
         Set<Role> roles = null;
         try {
-            user = entityManager.createQuery("select u from User u where u.email = :email" , User.class)
+            user = entityManager.createQuery("from User where email = :email" , User.class)
                     .setParameter("email", email).getSingleResult();
             Hibernate.initialize(user.getRoles());
         } catch (NoResultException e) {
@@ -48,7 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findById(long userId) {
         User user = null;
         try {
-            user = entityManager.createQuery("select u from User u where u.id = :id" , User.class)
+            user = entityManager.createQuery("from User where id = :id" , User.class)
                     .setParameter("id", userId).getSingleResult();
         } catch (NoResultException e) {
         }
@@ -57,7 +44,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return entityManager.createQuery("select u from User u" , User.class).getResultList();
+        return entityManager.createQuery("from User" , User.class).getResultList();
     }
 
     @Override
@@ -69,7 +56,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void deleteById(long id) {
         User user = null;
         try {
-            user = entityManager.createQuery("select u from User u where u.id = :id" , User.class)
+            user = entityManager.createQuery("from User where id = :id" , User.class)
                     .setParameter("id", id).getSingleResult();
         } catch (NoResultException e) {
         }

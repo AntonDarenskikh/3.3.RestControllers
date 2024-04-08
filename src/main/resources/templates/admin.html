@@ -211,12 +211,12 @@
 
                                                                 <div class="py-2">
                                                                     <label for="psw2" class="fw-bold">Password</label>
-                                                                    <input type="password" th:value="${user.password}" th:name="password" class="form-control form-control-sm " placeholder="Password" id="psw2">
+                                                                    <input type="password" th:value="${user.password}" th:name="password" class="form-control form-control-sm " placeholder="Password" id="psw2" minlength="3">
                                                                 </div>
 
                                                                 <div class="py-2">
                                                                     <label for="role2" class="fw-bold">Role:</label>
-                                                                    <select class="form-select" id="role2" size="2" aria-label="size 2 select example" multiple="multiple" th:field="*{roles}">
+                                                                    <select class="form-select" id="role2" size="2" aria-label="size 2 select example" multiple="multiple" th:field="*{roles}" required>
                                                                         <option  th:each="role : ${allRoles}" th:text="${role.role}" th:value="${role.role}">Admin</option>
                                                                     </select>
                                                                 </div>
@@ -250,7 +250,7 @@
                     </div>
                     <div class="row p-0 m-0 bg-white text-dark border rounded-bottom justify-content-center">
                         <div class="col-4 p-1 align-self-center text-center">
-                            <form th:method="POST" th:action="@{/admin/addUser}" th:object="${newUser}">
+                            <form th:method="POST" th:action="@{/admin/addUser}" th:object="${user}">
                                 <div class="py-2">
                                     <label for="firstName3" class="fw-bold">First name</label>
                                     <input type="text" th:field="*{firstName}" th:name="firstName" class="form-control form-control-sm " placeholder="First name" id="firstName3">
@@ -263,7 +263,7 @@
 
                                 <div class="py-2">
                                     <label for="psw" class="fw-bold">Password</label>
-                                    <input type="password" th:field="*{password}" class="form-control form-control-sm " placeholder="Password" aria-label="name" id="psw">
+                                    <input type="password" th:field="*{password}" class="form-control form-control-sm " placeholder="Password" aria-label="name" id="psw" minlength="3">
                                 </div>
 
 
@@ -280,7 +280,7 @@
 
                                 <div class="py-2">
                                     <label for="role" class="fw-bold">Role:</label>
-                                    <select class="form-select" id="role" size="2" aria-label="size 2 select example" multiple="multiple" th:field="*{roles}">
+                                    <select class="form-select" id="role" size="2" aria-label="size 2 select example" multiple="multiple" th:field="*{roles}" required>
                                         <option  th:each="role : ${allRoles}" th:text="${role.role}" th:value="${role.role}">Admin</option>
                                     </select>
                                 </div>

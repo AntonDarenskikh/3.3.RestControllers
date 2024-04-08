@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.model;
 
-//import jakarta.persistence.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,10 +33,10 @@ public class User implements UserDetails {
     private byte age;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "USER_ROLE",
-            joinColumns = { @JoinColumn(name = "USER_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "USER_ROLE_ID") })
+    @ManyToMany
+    @JoinTable(name = "user_role",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_role_id") })
     private Set<Role> roles;
 
     public User() {

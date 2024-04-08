@@ -21,14 +21,14 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     @Override
     public List<Role> findAll() {
-        return entityManager.createQuery("select u from Role u" , Role.class).getResultList();
+        return entityManager.createQuery("from Role" , Role.class).getResultList();
     }
 
     @Override
     public Role findByRole(String name) {
         Role role = null;
         try {
-            role = entityManager.createQuery("select u from Role u where u.role = :name" , Role.class)
+            role = entityManager.createQuery("from Role where role = :name" , Role.class)
                     .setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
         }

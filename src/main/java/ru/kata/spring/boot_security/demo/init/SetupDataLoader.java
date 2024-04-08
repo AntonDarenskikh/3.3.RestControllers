@@ -2,14 +2,10 @@ package ru.kata.spring.boot_security.demo.init;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
@@ -23,11 +19,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     private final UserService userService;
     private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
-    public SetupDataLoader(UserServiceImpl userService, UserRepository userRepository, RoleRepository roleRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public SetupDataLoader(UserServiceImpl userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -45,12 +39,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Role userRole = roleService.findByRole("ROLE_USER");
 
         if (userService.findUserByEmail("ya@yandex.ru") == null) {
-            User admin = new User("ya@yandex.ru", passwordEncoder.encode("password"), "Alex", "Vans", (byte) 20, Set.of(adminRole, userRole));
+            User admin = new User("ya@yandex.ru", userService.getEncodedPassword("password"), "Alex", "Vans", (byte) 20, Set.of(adminRole, userRole));
             userService.saveUser(admin);
         }
 
         if (userService.findUserByEmail("user@mail.ru") == null) {
-            User startUser = new User("user@mail.ru", passwordEncoder.encode("password"), "Mike", "Casper", (byte) 30, Set.of(userRole));
+            User startUser = new User("user@mail.ru", userService.getEncodedPassword("password"), "Mike", "Casper", (byte) 30, Set.of(userRole));
             userService.saveUser(startUser);
         }
 
