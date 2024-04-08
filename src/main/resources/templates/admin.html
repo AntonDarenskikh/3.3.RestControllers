@@ -211,7 +211,7 @@
 
                                                                 <div class="py-2">
                                                                     <label for="psw2" class="fw-bold">Password</label>
-                                                                    <input type="password" th:field="*{password}" class="form-control form-control-sm " placeholder="Password" id="psw2">
+                                                                    <input type="password" th:value="${user.password}" th:name="password" class="form-control form-control-sm " placeholder="Password" id="psw2">
                                                                 </div>
 
                                                                 <div class="py-2">
@@ -280,7 +280,7 @@
 
                                 <div class="py-2">
                                     <label for="role" class="fw-bold">Role:</label>
-                                    <select class="form-select" id="role" size="2" aria-label="size 2 select example" th:field="*{roles}">
+                                    <select class="form-select" id="role" size="2" aria-label="size 2 select example" multiple="multiple" th:field="*{roles}">
                                         <option  th:each="role : ${allRoles}" th:text="${role.role}" th:value="${role.role}">Admin</option>
                                     </select>
                                 </div>
