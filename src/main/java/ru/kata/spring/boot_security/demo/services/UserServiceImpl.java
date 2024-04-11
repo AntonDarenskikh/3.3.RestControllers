@@ -60,8 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return;
         }
 
-        //roleService.setRoles(user);
-        //userService.setEncodedPassword(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
     }
@@ -75,6 +74,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     public void updateUser(User user) {
+        String oldPassword = findUserById(user.getId()).getPassword();
+        String newPassword = user.getPassword();
+
+        if (passwordEncoder.matches(newPassword, oldPassword) || oldPassword.equals(newPassword)) {
+            user.setPassword(oldPassword);
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         userRepository.update(user);
     }
 

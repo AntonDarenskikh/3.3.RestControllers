@@ -34,7 +34,6 @@ public class AdminController {
     @PostMapping(value = "/addUser")
     public String addUser(@ModelAttribute("user") User user) {
         roleService.setRoles(user);
-        userService.setEncodedPassword(user);
 
         userService.saveUser(user);
         return "redirect:/admin";
@@ -44,7 +43,6 @@ public class AdminController {
     @PostMapping(value = "/editUser")
     public String editUser(@ModelAttribute("user") User user) {
         roleService.setRoles(user);
-        userService.changePasswordIfNew(user);
 
         userService.updateUser(user);
         return "redirect:/admin";
