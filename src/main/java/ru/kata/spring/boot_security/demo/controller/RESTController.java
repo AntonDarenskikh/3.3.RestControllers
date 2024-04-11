@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
@@ -26,8 +27,13 @@ public class RESTController {
     }
 
     @GetMapping(value = "/users")
-    public List<User> getAllusers() {
+    public List<User> getAllUsers() {
         return userService.allUsers();
+    }
+
+    @GetMapping(value = "/roles")
+    public List<Role> getAllRoles() {
+        return roleService.allRoles();
     }
 
     @PostMapping(value = "/users")

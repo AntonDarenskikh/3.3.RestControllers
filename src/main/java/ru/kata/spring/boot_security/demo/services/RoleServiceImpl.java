@@ -38,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(readOnly = true)
     public void setRoles(User user) {
-        Set<Role> roles = user.getRoles().stream().map(Role::getRole)
+        Set<Role> roles = user.getRoles().stream().map(Role::getName)
                 .map(roleRepository::findByRole).collect(Collectors.toSet());
         user.setRoles(roles);
     }

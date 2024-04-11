@@ -60,6 +60,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return;
         }
 
+        //roleService.setRoles(user);
+        //userService.setEncodedPassword(user);
+
         userRepository.save(user);
     }
 

@@ -1,7 +1,9 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.security.core.GrantedAuthority;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,9 +16,14 @@ public class Role implements GrantedAuthority {
     private long id;
 
     @Column
-    private String role;
+    private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonBackReference
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
     private Set<User> users;
 
     public Role() {
@@ -26,20 +33,14 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
-    }
 
     public String getName() {
-        return role;
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
-    public void setName(String role) {
-        this.role = role;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<User> getUsers() {
@@ -50,8 +51,8 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String name) {
+        this.name = name;
     }
 
     public long getId() {
@@ -63,7 +64,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return role;
+        return name;
     }
 
 }

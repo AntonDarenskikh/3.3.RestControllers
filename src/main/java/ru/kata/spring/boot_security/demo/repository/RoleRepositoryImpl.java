@@ -28,7 +28,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     public Role findByRole(String name) {
         Role role = null;
         try {
-            role = entityManager.createQuery("from Role where role = :name" , Role.class)
+            role = entityManager.createQuery("from Role where name = :name" , Role.class)
                     .setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
         }
