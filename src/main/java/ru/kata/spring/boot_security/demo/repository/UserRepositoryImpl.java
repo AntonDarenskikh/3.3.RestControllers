@@ -32,14 +32,14 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public Optional<User> findById(long userId) {
+    public User findById(long userId) {
         User user = null;
         try {
             user = entityManager.createQuery("from User where id = :id" , User.class)
                     .setParameter("id", userId).getSingleResult();
         } catch (NoResultException e) {
         }
-        return Optional.of(user);
+        return user;
     }
 
     @Override

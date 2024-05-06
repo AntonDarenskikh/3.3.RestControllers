@@ -26,8 +26,11 @@ public class UserController {
     }
 
     @GetMapping(value = "/")
-    public String printWelcome() {
-        RestTemplate restTemplate = new RestTemplate();
+    public String printWelcome(Principal principal, ModelMap model) {
+
+        User user = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", user);
+/*        RestTemplate restTemplate = new RestTemplate();
         Map<String, String> jsonSend = new HashMap<>();
         jsonSend.put("name", "Test name");
         HttpEntity<Map<String, String>> request = new HttpEntity<>(jsonSend);
@@ -44,7 +47,7 @@ public class UserController {
         }
         JsonNode name = node.get(0).get("name");
 
-        System.out.println(resp + "\n нужная часть:" + name);
+        System.out.println(resp + "\n нужная часть:" + name);*/
         return "index";
     }
 

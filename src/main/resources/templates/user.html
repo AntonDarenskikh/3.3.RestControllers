@@ -11,13 +11,13 @@
 
 
 </head>
-<body>
+<body onload="loadNavbar(); loadAboutUser()">
+
 <!-- Navbar -->
 <nav class="navbar navbar-dark bg-dark p-0">
     <div class="container-fluid">
         <a class="navbar-brand">
-            <b th:text="${user.getEmail()}"> a@mail.ru </b> with roles: <span th:each="role : ${user.getRoles()}"
-                                                                              th:text="${role.getName()} + ' '"></span>
+            <b id="navbar-email"> a@mail.ru </b> with roles: <span id="navbar-roles"></span>
         </a>
         <span class="navbar-text">
         <a type="button" class="btn text-secondary"  role="button" th:href="@{/logout}">
@@ -28,8 +28,6 @@
 </nav>
 
 
-
-<!-- Контейнер -->
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 p-0 mt-3">
@@ -50,7 +48,7 @@
                 </div>
                 <div class="row p-0 m-0">
                     <div class="col p-3 m-0 bg-white text-dark border rounded-bottom">
-                        <table class="table table-striped bg-white text-dark border-top">
+                        <table id="my-table" class="table table-striped bg-white text-dark border-top">
                             <thead>
                             <tr>
                                 <th scope="col">Id</th>
@@ -61,28 +59,17 @@
                                 <th scope="col">Roles</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td th:text="${user.getId()}"/>
-                                <td th:text="${user.getFirstName()}"/>
-                                <td th:text="${user.getLastName()}"/>
-                                <td th:text="${user.getAge()}"/>
-                                <td th:text="${user.getEmail()}"/>
-                                <td>
-                                    <span th:each="role : ${user.getRoles()}" th:text="${role.getName()} + '; '"></span>
-                                </td>
-                            </tr>
+                            <tbody id="my-body1">
+                            <!-- JS Filling -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
 </div>
 
+<script src="/js/app.js"></script>
 </body>
 </html>
