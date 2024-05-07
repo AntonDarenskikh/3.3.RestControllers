@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -62,7 +63,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         userRepository.save(user);
     }
 
@@ -87,28 +87,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.update(user);
     }
 
-    @Override
-    @Transactional
-    public void changePasswordIfNew(User user) {
-        String oldPassword = findUserById(user.getId()).getPassword();
-        String newPassword = user.getPassword();
-
-        if (passwordEncoder.matches(newPassword, oldPassword) || oldPassword.equals(newPassword)) {
-            user.setPassword(oldPassword);
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-    }
-
-    @Override
-    public void setEncodedPassword(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-    }
-
-    @Override
-    public String getEncodedPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
 
 
 }

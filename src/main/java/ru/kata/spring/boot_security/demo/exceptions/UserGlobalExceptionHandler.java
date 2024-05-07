@@ -1,10 +1,10 @@
-package ru.kata.spring.boot_security.demo.ExceptionHandler;
+package ru.kata.spring.boot_security.demo.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.kata.spring.boot_security.demo.dto.IncorrectData;
 
 @ControllerAdvice
 public class UserGlobalExceptionHandler {

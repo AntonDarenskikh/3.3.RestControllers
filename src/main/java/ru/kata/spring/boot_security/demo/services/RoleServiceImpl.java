@@ -29,11 +29,6 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findByRole(role);
     }
 
-    @Override
-    @Transactional
-    public void save(Role role) {
-        roleRepository.save(role);
-    }
 
     @Override
     @Transactional(readOnly = true)

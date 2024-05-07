@@ -7,19 +7,23 @@ let editForm = document.forms.editForm;
 let deleteForm = document.forms.deleteForm;
 let modalEdit = document.getElementById('defaultEdit')
 let modalDelete = document.getElementById('defaultDelete')
+let roleSelect = '';
+getRoles();
+
+async function getRoles() {
+    let preroles = await fetch(`http://localhost:8080/api/roles`);
+    let roles = await preroles.json();
+    Array.from(roles).forEach(role => {
+        roleSelect += `<option value=${role.name}>${role.name}</option>`;
+    })
+    addForm.roles.innerHTML = roleSelect;
+}
 
 const userFetchInfo = {
     head: {
-        //'Accept': 'application/json',
         'Content-Type': 'application/json',
-        //'Referer': null
     },
-/*    getUser: async (id) => {
-        let data = await fetch(`api/users/${id}`);
-        return data.json();
-    }*/
 }
-
 const addUserToTable = (user) => {
     output += `
         <tr id = 'tableString${user.id}'>
@@ -112,15 +116,15 @@ async function openEditModal(id) {
     let response = await fetch(`http://localhost:8080/api/users/${id}`);
     let user = await response.json();
 
-
     editForm.editLastName.value = user.lastName;
     editForm.editFirstName.value = user.firstName;
     editForm.editAge.value = user.age;
     editForm.editId.value = user.id;
     editForm.editPassword.value = user.password;
     editForm.editEmail.value = user.email;
+    editForm.roles.innerHTML = roleSelect;
 
-    modalEdit.style.display='block';
+    modalEdit.style.display = 'block';
 
     const closeButton1 = document.getElementsByClassName('close')[0];
     closeButton1.addEventListener('click', () => {
@@ -142,6 +146,7 @@ async function openDeleteModal(id) {
     deleteForm.deleteId.value = user.id;
     deleteForm.deletePassword.value = user.password;
     deleteForm.deleteEmail.value = user.email;
+    deleteForm.roles.innerHTML = roleSelect;
 
     modalDelete.style.display='block';
 
@@ -182,16 +187,10 @@ addForm.addEventListener('submit', (event) => {
         .then(async data => {
             await addUserToTable(data)
         })
-    /*        .then(data => {
-                const dataArr = [];
-                dataArr.push(data);
-                addUserToTable(dataArr);
-            })*/
+
 })
 editForm.addEventListener('submit', (event) => {
     event.preventDefault();
-
-    //get post FORM
     let roles = [];
     for (let i = 0; i < editForm.roles.size; i++) {
         if (editForm.roles.options[i].selected){
@@ -200,6 +199,7 @@ editForm.addEventListener('submit', (event) => {
     }
 
     const user = {
+        id: editForm.editId.value,
         firstName: editForm.editFirstName.value,
         lastName: editForm.editLastName.value,
         password: editForm.editPassword.value,
@@ -208,7 +208,7 @@ editForm.addEventListener('submit', (event) => {
         roles: roles,
     };
 
-    fetch(usersUrl+"/"+editForm.editId.value, {
+    fetch(usersUrl, {
         method: 'PATCH',
         headers: userFetchInfo.head,
         body: JSON.stringify(user),
@@ -222,26 +222,9 @@ editForm.addEventListener('submit', (event) => {
 deleteForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    let roles = [];
-    for (let i = 0; i < deleteForm.roles.size; i++) {
-        if (deleteForm.roles.options[i].selected){
-            roles.push({'name' : deleteForm.roles[i].value})
-        }
-    }
-
-    const user = {
-        firstName: deleteForm.deleteFirstName.value,
-        lastName: deleteForm.deleteLastName.value,
-        password: deleteForm.deletePassword.value,
-        age: deleteForm.deleteAge.value,
-        email: deleteForm.deleteEmail.value,
-        roles: roles,
-    };
-
     fetch(usersUrl+"/"+deleteForm.deleteId.value, {
         method: 'DELETE',
         headers: userFetchInfo.head,
-        body: JSON.stringify(user),
     })
         .then(res => res.json())
         .then(async data => {

@@ -11,7 +11,5 @@ public interface RoleService {
 
     Role findByRole(String role);
 
-    void save(Role role);
-
     void setRoles(User user);
 }

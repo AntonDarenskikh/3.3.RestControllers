@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.exceptions;
+package ru.kata.spring.boot_security.demo.dto;
 
 public class IncorrectData {
     private String info;

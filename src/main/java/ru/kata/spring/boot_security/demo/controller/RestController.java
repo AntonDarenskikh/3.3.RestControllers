@@ -1,11 +1,10 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.ExceptionHandler.NoSuchUserException;
+import ru.kata.spring.boot_security.demo.exceptions.NoSuchUserException;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.services.RoleService;
@@ -15,13 +14,13 @@ import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 import java.security.Principal;
 import java.util.List;
 
-@RestController
+@org.springframework.web.bind.annotation.RestController
 @RequestMapping(value = "/api")
-public class RESTController {
+public class RestController {
     private final UserService userService;
     private final RoleService roleService;
 
-    public RESTController(UserServiceImpl userService, RoleService roleService) {
+    public RestController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -61,24 +60,19 @@ public class RESTController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    @PatchMapping(value = "/users/{id}")
-    public ResponseEntity<User> editUser(@PathVariable long id, @RequestBody User user, BindingResult bindingResult) {
-        user.setId(id);
+    @PatchMapping(value = "/users")
+    public ResponseEntity<User> editUser(@RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("ERROR");
         }
 
         roleService.setRoles(user);
         userService.updateUser(user);
-        //return user;
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @DeleteMapping(value = "/users/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id, @RequestBody User user,  BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            System.out.println("ERROR");
-        }
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id) {
 
         userService.deleteUser(id);
         return ResponseEntity.ok(HttpStatus.OK);

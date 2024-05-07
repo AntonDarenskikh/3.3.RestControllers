@@ -125,7 +125,6 @@
                                 <div class="py-2">
                                     <label for="roles" class="fw-bold">Role:</label>
                                     <select class="form-select" id="roles" name="roles" size="2" aria-label="size 2 select example" multiple="multiple"  required>
-                                        <option  th:each="role : ${allRoles}" th:text="${role.name}" th:value="${role.name}">Admin</option>
                                     </select>
                                 </div>
 
@@ -198,7 +197,7 @@
                     <div class="py-2">
                         <label for="editRoles" class="fw-bold">Role:</label>
                         <select class="form-select" name="roles" id="editRoles" size="2" aria-label="size 2 select example" multiple="multiple" required>
-                            <option  th:each="role : ${allRoles}" th:text="${role.name}" th:value="${role.name}">Admin</option>
+
                         </select>
                     </div>
                 </fieldset>
@@ -259,7 +258,6 @@
                         <div class="py-2">
                             <label for="deleteRoles" class="fw-bold">Role:</label>
                             <select class="form-select" name="roles" id="deleteRoles" size="2" aria-label="size 2 select example" multiple="multiple">
-                                <option  th:each="role : ${allRoles}" th:text="${role.name}" th:value="${role.name}">Admin</option>
                             </select>
                         </div>
                     </fieldset>

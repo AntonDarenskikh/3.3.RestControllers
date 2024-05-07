@@ -19,13 +19,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     private final UserService userService;
     private final RoleService roleService;
-    public SetupDataLoader(UserServiceImpl userService, RoleService roleService) {
+    public SetupDataLoader(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
     @Override
-    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup) {
             return;
@@ -39,12 +38,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Role userRole = roleService.findByRole("ROLE_USER");
 
         if (userService.findUserByEmail("ya@yandex.ru") == null) {
-            User admin = new User("ya@yandex.ru", userService.getEncodedPassword("password"), "Alex", "Vans", (byte) 20, Set.of(adminRole, userRole));
+            User admin = new User("ya@yandex.ru", "password", "Alex", "Vans", (byte) 20, Set.of(adminRole, userRole));
             userService.saveUser(admin);
         }
 
         if (userService.findUserByEmail("user@mail.ru") == null) {
-            User startUser = new User("user@mail.ru", userService.getEncodedPassword("password"), "Mike", "Casper", (byte) 30, Set.of(userRole));
+            User startUser = new User("user@mail.ru", "password", "Mike", "Casper", (byte) 30, Set.of(userRole));
             userService.saveUser(startUser);
         }
 
